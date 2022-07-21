@@ -1,6 +1,6 @@
-## Ballerine Integration example
+## Ballerine KMP Integration example
 
-### Integration into Android KMP project
+### Integration into Android
 
 1. Create Fragment or Activity which contains WebView, it should load `https://2.dev.ballerine.app` URL.
 2. Set webViewSettings the following WebView settings:
@@ -34,3 +34,24 @@
 ```
 5. Create method that checking about finished state of the registration flow and save received results, see `checkWebViewUrl` method for more details. 
 
+
+### Integration into iOS
+
+1. Add NSCameraUsageDescription key into Info.plist file. It's needed for camera usage.
+2. Create UIViewController which contains WKWebView, it should load `https://2.dev.ballerine.app` URL.
+3. Add web view key-value observer for detect URL updates:
+```swift
+webView.addObserver(self, forKeyPath: "URL", options: .new, context: nil)
+```
+4. Implement observeValue forKeyPath method for handle URL updates: 
+```swift
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        guard let key = change?[NSKeyValueChangeKey.newKey], let url = (key as? NSURL)?.absoluteString else { return }
+        if url.absoluteString.contains("final") {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak self] in
+                self?.finishWithSecret(url.query ?? "")
+            }
+        }
+    }
+```
+5. Create method that checking about finished state of the registration flow and save received results, see `finishWithSecret` method for more details.

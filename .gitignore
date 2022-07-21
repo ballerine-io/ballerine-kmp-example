@@ -9,3 +9,34 @@
 .externalNativeBuild
 .cxx
 local.properties
+
+# Xcode
+.DS_Store
+.DS_Store?
+.Trashes
+.Spotlight-V100
+*.swp
+## Xcode private settings
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
+xcuserdata/
+## Other
+*.xccheckout
+*.moved-aside
+*.xcuserstate
+*.xcscmblueprint
+## Obj-C/Swift specific
+*.hmap
+*.ipa
+*.dSYM.zip
+*.dSYM
+## Xcode build files
+iosApp/build
+# CocoaPods
+iosApp/Pods
