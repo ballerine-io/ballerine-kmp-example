@@ -2,7 +2,7 @@
 
 ### Integration into Android
 
-1. Create Fragment or Activity which contains WebView, it should load `https://2.dev.ballerine.app` URL.
+1. Create Fragment or Activity which contains WebView, it should load `https://[YOUR-SUBDOMAIN].dev.ballerine.app` (sanbox) or `https://[YOUR-SUBDOMAIN].ballerine.app` (prod) URL.
 2. Set webViewSettings the following WebView settings:
 ```kt
         webviewSettings.javaScriptEnabled = true
@@ -38,7 +38,7 @@
 ### Integration into iOS
 
 1. Add NSCameraUsageDescription key into Info.plist file. It's needed for camera usage.
-2. Create UIViewController which contains WKWebView, it should load `https://2.dev.ballerine.app` URL.
+2. Create UIViewController which contains WKWebView, it should load `https://[YOUR-SUBDOMAIN].dev.ballerine.app` (sanbox) or `https://[YOUR-SUBDOMAIN].ballerine.app` (prod) URL.
 3. Add web view key-value observer for detect URL updates:
 ```swift
 webView.addObserver(self, forKeyPath: "URL", options: .new, context: nil)
