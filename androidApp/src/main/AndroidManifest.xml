@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="io.ballerine.kmp.example.android">
-    <uses-permission android:name="android.permission.INTERNET" />
 
-    <queries>
-        <!-- Query Camera Packages -->
-        <intent>
-            <action android:name="android.media.action.IMAGE_CAPTURE" />
-        </intent>
-    </queries>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA"/>
 
     <application
+        android:label="@string/app_name"
         android:allowBackup="false"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -22,22 +18,5 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity
-          android:name=".BallerineKYCFlow"
-          android:exported="false">
-        </activity>
-
-        <provider
-          android:name=".CameraFileProvider"
-          android:authorities="${applicationId}.imagepicker.provider"
-          android:exported="false"
-          android:grantUriPermissions="true">
-
-            <meta-data
-              android:name="android.support.FILE_PROVIDER_PATHS"
-              android:resource="@xml/image_picker_provider_paths" />
-
-        </provider>
     </application>
 </manifest> 
