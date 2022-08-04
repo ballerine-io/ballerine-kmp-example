@@ -22,9 +22,21 @@ import java.util.concurrent.Executors
 
 class MainActivity : AppCompatActivity() {
 
+    companion object {
+
+        const val BALLERINE_WEB_URL = "https://moneco.dev.ballerine.app"
+        /**
+         * BALLERINE_API_TOKEN needs to be generated from the backend. Please follow the below link for more information on how to generate the tole
+         * https://www.notion.so/ballerine/Ballerine-s-Developers-Documentation-c9b93462384446ef98ffb69d16865981#228240bfef6f48f3971db07ef03368c3
+         */
+        const val BALLERINE_API_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbmRVc2VySWQiOiJhMzEyYzk1ZC03ODE4LTQyNDAtOTQ5YS1mMDRmNDEwMzRlYzEiLCJjbGllbnRJZCI6IjI2YTRmOTFiLWFhM2UtNGNlNS1hZDE1LWYzNTRiOTI1NmJmMCIsImlhdCI6MTY1OTYxNzM1NCwiZXhwIjoxNjkwMzc1NzU0LCJpc3MiOiIyNmE0ZjkxYi1hYTNlLTRjZTUtYWQxNS1mMzU0YjkyNTZiZjAifQ.Nm-j9jVh7ByHoo0WkqnIQeVR0mNWcV3TZUNknSLRtbc"
+
+        const val MAIN_SCREEN = 0
+        const val WEB_VIEW_SCREEN = 1
+    }
+
     private lateinit var outputFileDirectory: File
     private lateinit var cameraExecutorService: ExecutorService
-
 
     @OptIn(ExperimentalPermissionsApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,6 +46,7 @@ class MainActivity : AppCompatActivity() {
         cameraExecutorService = Executors.newSingleThreadExecutor()
 
         setContent {
+            // Required permission check
             val permissionState =
                 rememberMultiplePermissionsState(arrayListOf(Manifest.permission.CAMERA))
 
@@ -55,28 +68,29 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    // View
     @Composable
     fun MainScreen() {
 
-        var secretValue by remember {
+        var verificationResultText by remember {
             mutableStateOf("")
         }
 
-        val noSecretString = stringResource(R.string.no_secret_available)
+        val noResultDisplay = stringResource(R.string.display_verification_result)
 
         LaunchedEffect(key1 = Unit, block = {
-            secretValue = noSecretString
+            verificationResultText = noResultDisplay
         })
 
-        val mainScreen = 0
-        val webView = 1
-
         var currentPage by remember {
-            mutableStateOf(mainScreen)
+            mutableStateOf(MAIN_SCREEN)
         }
 
+
+        // Navigation handler
         when (currentPage) {
-            mainScreen -> {
+
+            MAIN_SCREEN -> {
                 Column(
                     modifier = Modifier.fillMaxSize(),
                     verticalArrangement = Arrangement.Center,
@@ -84,31 +98,41 @@ class MainActivity : AppCompatActivity() {
                 ) {
 
                     OutlinedButton(onClick = {
-                        currentPage = webView
+                        currentPage = WEB_VIEW_SCREEN
                     }) {
                         Text(text = stringResource(R.string.start_the_flow))
                     }
 
-                    Text(text = secretValue)
+                    Text(text = verificationResultText)
                 }
             }
 
-            webView -> {
+            WEB_VIEW_SCREEN -> {
                 Column(
                     modifier = Modifier.fillMaxSize()
                 ) {
-                    BallerineWebView(
-                        outputFileDirectory,
-                        cameraExecutorService,
-                        url = "https://vendy.dev.ballerine.app",
-                        onVerificationComplete = { result ->
-                            currentPage = mainScreen
-                            secretValue = result
+                    /**
+                     * Add this composable to your code to integrate the Ballerine KYC flow Web view
+                     */
+                    BallerineKYCFlowWebView(
+                        outputFileDirectory = outputFileDirectory,
+                        cameraExecutorService = cameraExecutorService,
+                        url = "$BALLERINE_WEB_URL?/b_t=$BALLERINE_API_TOKEN",
+                        onVerificationComplete = { verificationResult ->
+                            // Exit webview and navigate to main screen
+                            currentPage = MAIN_SCREEN
+
+                            // Display verification result
+                            verificationResultText = "Idv result : ${verificationResult.idvResult} \n" +
+                                    "Status : ${verificationResult.status} \n" +
+                                    "Code : ${verificationResult.code}"
                         })
                 }
             }
         }
     }
+
+    // Helper functions
 
     @Composable
     fun AllowCameraAccess() {

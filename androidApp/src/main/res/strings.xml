@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="app_name">Ballerine KMP</string>
-    <string name="take_picture">Take picture</string>
-    <string name="start_the_flow">Start The Flow</string>
-    <string name="no_secret_available">No secret available</string>
-    <string name="allow_camera_access">Allow camera access to continue</string>
-</resources>

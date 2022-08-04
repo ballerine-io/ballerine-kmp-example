@@ -13,15 +13,20 @@ import java.io.File
 import java.util.concurrent.ExecutorService
 
 /**
- * Custom Web view which handles the web verification flow
+ * Custom Web view which handles the Web KYC verification flow
+ *
+ * @param1 - outputFileDirectory is the location of where the images are saved
+ * @param2 - cameraExecutorService
+ * @param3 - url is the base app url
+ * @param4 - onVerificationComplete - returns the Callback function with the VerificationResult object
  */
 @SuppressLint("SetJavaScriptEnabled")
 @Composable
-fun BallerineWebView(
+fun BallerineKYCFlowWebView(
     outputFileDirectory: File,
     cameraExecutorService: ExecutorService,
     url: String,
-    onVerificationComplete: (String) -> Unit,
+    onVerificationComplete: (VerificationResult) -> Unit,
 ) {
 
     var isOpenFrontCamera by remember {
@@ -40,7 +45,7 @@ fun BallerineWebView(
             outputDirectory = outputFileDirectory,
             executor = cameraExecutorService,
             onImageCaptured = { uri ->
-                filePathCallback!!.onReceiveValue(arrayOf(uri))
+                filePathCallback?.onReceiveValue(arrayOf(uri))
                 filePathCallback = null
                 showMediaPicker = false
             }
@@ -48,6 +53,7 @@ fun BallerineWebView(
     }
 
     val webViewChromeClient = object : WebChromeClient() {
+
         override fun onShowFileChooser(
             webView: WebView?,
             filePathCb: ValueCallback<Array<Uri>>?,
@@ -72,13 +78,27 @@ fun BallerineWebView(
         override fun doUpdateVisitedHistory(view: WebView?, url: String, isReload: Boolean) {
             Log.d("doUpdateVisitedHistory", "url -> $url")
 
+            // Parse url query params
             val uri = Uri.parse(url)
-            uri.getQueryParameter("close")?.let { paramValue ->
+
+            uri.getQueryParameter("close").let { paramValue ->
+
                 if (paramValue == "true") {
-                    onVerificationComplete(paramValue)
+
+                    // Handle result once web KYC flow is complete
+
+                    val isSync = uri.getBooleanQueryParameter("sync", false)
+                    val status = uri.getQueryParameter("status")
+                    val idvResult = uri.getQueryParameter("idvResult")
+                    val code = uri.getQueryParameter("code")
+
+                    onVerificationComplete(
+                        VerificationResult(isSync, status, idvResult, code)
+                    )
                 }
             }
 
+            // Sets camera to front facing while capturing selfie
             isOpenFrontCamera = url.contains("selfie") == true
 
             super.doUpdateVisitedHistory(view, url, isReload)
