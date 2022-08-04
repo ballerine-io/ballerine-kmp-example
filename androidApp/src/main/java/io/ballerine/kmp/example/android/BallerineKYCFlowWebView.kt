@@ -1,14 +1,22 @@
 package io.ballerine.kmp.example.android
 
+import android.Manifest
 import android.annotation.SuppressLint
+import android.content.Context
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.util.Log
 import android.view.ViewGroup
 import android.webkit.*
+import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.core.content.ContextCompat
 import java.io.File
 import java.util.concurrent.ExecutorService
 
@@ -38,6 +46,39 @@ fun BallerineKYCFlowWebView(
     var showMediaPicker by remember {
         mutableStateOf(false)
     }
+    var isCameraPermissionAvailable by remember {
+        mutableStateOf(false)
+    }
+    val context = LocalContext.current
+
+    /**
+     * Checks if camera permission is granted by the user
+     */
+    val launcher = rememberLauncherForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted: Boolean ->
+        if (isGranted) {
+            // Permission Accepted
+            isCameraPermissionAvailable = true
+            showMediaPicker = true
+        } else {
+            // Permission Denied
+            permissionRequiredToast(context = context)
+        }
+    }
+
+
+    /**
+     * Checks if camera permission is already available
+     */
+    when (PackageManager.PERMISSION_GRANTED) {
+        ContextCompat.checkSelfPermission(
+            context,
+            Manifest.permission.CAMERA
+        ) -> {
+            isCameraPermissionAvailable = true
+        }
+    }
 
     if (showMediaPicker) {
         CameraView(
@@ -59,11 +100,19 @@ fun BallerineKYCFlowWebView(
             filePathCb: ValueCallback<Array<Uri>>?,
             fileChooserParams: FileChooserParams?,
         ): Boolean {
+
             if (filePathCallback != null) {
                 filePathCallback!!.onReceiveValue(null)
             }
             filePathCallback = filePathCb
-            showMediaPicker = true
+
+            //If camera permission is available open the camera preview else launch the camera permission request
+            if (isCameraPermissionAvailable) {
+                showMediaPicker = true
+            } else {
+                launcher.launch(Manifest.permission.CAMERA)
+            }
+
             return true
         }
 
@@ -127,4 +176,13 @@ fun BallerineKYCFlowWebView(
                 loadUrl(url)
             }
         })
+}
+
+// Function to generate a Toast
+private fun permissionRequiredToast(context: Context) {
+    Toast.makeText(
+        context,
+        context.getString(R.string.camera_permission_mandatory),
+        Toast.LENGTH_LONG
+    ).show()
 }

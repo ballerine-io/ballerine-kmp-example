@@ -5,4 +5,5 @@
     <string name="start_the_flow">Start The Flow</string>
     <string name="display_verification_result">No verification result available</string>
     <string name="allow_camera_access">Allow camera access to continue</string>
+    <string name="camera_permission_mandatory">Camera access permission is mandatory</string>
 </resources>

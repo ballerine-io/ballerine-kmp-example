@@ -1,6 +1,5 @@
 package io.ballerine.kmp.example.android
 
-import android.Manifest
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
@@ -14,8 +13,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
-import com.google.accompanist.permissions.PermissionsRequired
-import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import java.io.File
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
@@ -46,25 +43,7 @@ class MainActivity : AppCompatActivity() {
         cameraExecutorService = Executors.newSingleThreadExecutor()
 
         setContent {
-            // Required permission check
-            val permissionState =
-                rememberMultiplePermissionsState(arrayListOf(Manifest.permission.CAMERA))
-
-            PermissionsRequired(
-                multiplePermissionsState = permissionState,
-                permissionsNotGrantedContent = {
-                    LaunchedEffect(key1 = "permission", block = {
-                        permissionState.launchMultiplePermissionRequest()
-                    })
-                    AllowCameraAccess()
-                },
-                permissionsNotAvailableContent = {
-                    AllowCameraAccess()
-                },
-                content = {
-                    MainScreen()
-                }
-            )
+            MainScreen()
         }
     }
 
@@ -139,16 +118,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     // Helper functions
-
-    @Composable
-    fun AllowCameraAccess() {
-        Column(
-            modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text(text = getString(R.string.allow_camera_access))
-        }
-    }
 
     private fun getOutputDirectory(): File {
         val mediaDir = externalMediaDirs.firstOrNull()?.let {
