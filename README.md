@@ -4,8 +4,9 @@
 
 1. Generate JWT token in your backend which is required to access the Ballerine KYC flow APIs. Here is the link to the documentation on how to generate token.
 2. Add `BallerineKYCFlowWebview` composable to your Activity/Fragment to initiate the web KYC verification flow process.
-   MainActivity.kt
 ```kt
+MainActivity.kt
+
     BallerineKYCFlowWebView(
            outputFileDirectory = outputFileDirectory,
            cameraExecutorService = cameraExecutorService,
@@ -15,15 +16,18 @@
     })
 ```
 3. Once the web KYC verification flow is completed, we define the callback function `onVerificationComplete` which is passed as function-parameter in `BallerineKYCFlowWebview`.
-   BallerineKYCFlowWebView.kt
+
 ```kt
+BallerineKYCFlowWebView.kt
+
     onVerificationComplete(
         VerificationResult(isSync, status, idvResult, code)
     )    
 ```
 4. Then we receive the result of the callback function `onVerificationComplete` in your Activity/Fragment.
-   MainActivity.kt
 ```kt
+MainActivity.kt
+
     onVerificationComplete = { verificationResult ->
         //TODO :: Use the verification result returned
         
