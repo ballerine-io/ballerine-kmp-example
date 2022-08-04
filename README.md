@@ -4,10 +4,40 @@
 
 1. Generate JWT token in your backend which is required to access the Ballerine KYC flow APIs. Here is the link to the documentation on how to generate token.
 2. Add `BallerineKYCFlowWebview` composable to your Activity/Fragment to initiate the web KYC verification flow process. 
-(Please refer to this implementation in the `MainActivity` of our project)
+```kt
+    MainActivity
+
+    BallerineKYCFlowWebView(
+           outputFileDirectory = outputFileDirectory,
+           cameraExecutorService = cameraExecutorService,
+           url = "$BALLERINE_WEB_URL?/b_t=$BALLERINE_API_TOKEN",
+           onVerificationComplete = { verificationResult ->
+                    //Do something with the verification result
+    })
+```
 3. Once the web KYC verification flow is completed, we define the callback function `onVerificationComplete` which is passed as function-parameter in `BallerineKYCFlowWebview`.
-4. Then we receive the result of the callback function `onVerificationComplete` in your Activity/Fragment. (As shown in `MainActivity`) 
-5. Once you have received the `VerificationResult` we can do further checks on the different values of the `VerificationResult` like `status`|`idvResult`|`code`|`isSync`. 
+```kt
+    BallerineKYCFlowWebView.kt
+    
+    onVerificationComplete(
+        VerificationResult(isSync, status, idvResult, code)
+    )    
+```
+4. Then we receive the result of the callback function `onVerificationComplete` in your Activity/Fragment. 
+```kt
+    onVerificationComplete = { verificationResult ->
+        //TODO :: Use the verification result returned
+        
+        // Here we are just displaying the verification result as Text on the screen
+         verificationResultText = 
+             "Idv result : ${verificationResult.idvResult} \n" +
+             "Status : ${verificationResult.status} \n" +
+             "Code : ${verificationResult.code}"
+    }
+```
+5. Once you have received the `VerificationResult` we can do further checks on the different values of the `VerificationResult` like `status`|`idvResult`|`code`|`isSync`.
+   (As shown above in Point 4)
+
 
 ### Integration into iOS
 
