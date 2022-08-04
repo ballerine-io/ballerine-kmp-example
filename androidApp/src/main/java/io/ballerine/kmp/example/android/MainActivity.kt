@@ -97,6 +97,9 @@ class MainActivity : AppCompatActivity() {
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
 
+                    /**
+                     * Start flow Button click listener
+                     */
                     OutlinedButton(onClick = {
                         currentPage = WEB_VIEW_SCREEN
                     }) {
@@ -119,10 +122,13 @@ class MainActivity : AppCompatActivity() {
                         cameraExecutorService = cameraExecutorService,
                         url = "$BALLERINE_WEB_URL?/b_t=$BALLERINE_API_TOKEN",
                         onVerificationComplete = { verificationResult ->
+
+                            //TODO :: Use the verification result returned
+
                             // Exit webview and navigate to main screen
                             currentPage = MAIN_SCREEN
 
-                            // Display verification result
+                            // Here we are just displaying the verification result as Text on the screen
                             verificationResultText = "Idv result : ${verificationResult.idvResult} \n" +
                                     "Status : ${verificationResult.status} \n" +
                                     "Code : ${verificationResult.code}"
