@@ -14,10 +14,11 @@
         ... 
         maven("https://jitpack.io")
     }
-}
+   }
 ```
 3. Add `BallerineKYCFlowWebview` composable to your Activity/Fragment to initiate the web KYC verification flow process.
-   MainActivity.kt
+   Then we receive the result of the callback function `onVerificationComplete` in your Activity/Fragment.
+#### MainActivity.kt
 ```kt
     BallerineKYCFlowWebView(
            outputFileDirectory = outputFileDirectory,
@@ -25,32 +26,16 @@
            url = "$BALLERINE_WEB_URL?/b_t=$BALLERINE_API_TOKEN",
            onVerificationComplete = { verificationResult ->
                     //Do something with the verification result
+                    
+                    // Here we are just displaying the verification result as Text on the screen
+                     verificationResultText = 
+                                 "Idv result : ${verificationResult.idvResult} \n" +
+                                 "Status : ${verificationResult.status} \n" +
+                                 "Code : ${verificationResult.code}"
     })
 ```
-4. Once the web KYC verification flow is completed, we define the callback function `onVerificationComplete` which is passed as function-parameter in `BallerineKYCFlowWebview`.
-```kt
-BallerineKYCFlowWebView.kt
-
-    onVerificationComplete(
-        VerificationResult(isSync, status, idvResult, code)
-    )    
-```
-5. Then we receive the result of the callback function `onVerificationComplete` in your Activity/Fragment.
-```kt
-MainActivity.kt
-
-    onVerificationComplete = { verificationResult ->
-        //TODO :: Use the verification result returned
-        
-        // Here we are just displaying the verification result as Text on the screen
-         verificationResultText = 
-             "Idv result : ${verificationResult.idvResult} \n" +
-             "Status : ${verificationResult.status} \n" +
-             "Code : ${verificationResult.code}"
-    }
-```
-6. Once you have received the `VerificationResult` we can do further checks on the different values of the `VerificationResult` like `status`|`idvResult`|`code`|`isSync`.
-   (As shown above in Point 4)
+4. Once you have received the `VerificationResult` we can do further checks on the different values of the `VerificationResult` like `status`|`idvResult`|`code`|`isSync`.
+   (As shown above in Point 3)
 
 
 ### Integration into iOS
