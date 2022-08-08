@@ -28,7 +28,10 @@ android {
 
 dependencies {
     implementation(project(":shared"))
-    implementation(project(":ballerine-android-webview"))
+
+    // Ballerine
+    implementation("com.github.gau4sar:Ballerine-android-webview:1.0.0")
+
     implementation("androidx.appcompat:appcompat:1.4.2")
 
     val compose_version = "1.1.1"
