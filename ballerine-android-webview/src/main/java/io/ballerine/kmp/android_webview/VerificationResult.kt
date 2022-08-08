@@ -1,4 +1,4 @@
-package io.ballerine.kmp.example.android
+package io.ballerine.kmp.android_webview
 
 data class VerificationResult(
     val isSync: Boolean,
