@@ -3,9 +3,11 @@
 ### Integration into Android version of KMP project
 
 1. Generate JWT token in your backend which is required to access the Ballerine KYC flow APIs. Here is the link to the documentation on how to generate token.
-2. Add jitpack dependency for Ballerine webview flow in your app-level build.gradle
+2. Add gradle dependency for Ballerine webview in your app-level build.gradle file
 ```kt
-implementation("com.github.gau4sar:Ballerine-android-webview:1.0.0")
+dependencies {
+   implementation("com.github.gau4sar:Ballerine-android-webview:1.0.0")
+}
 ```
    We need to add the maven dependency for jitpack in settings.gradle
 ```kt
