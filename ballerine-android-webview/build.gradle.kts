@@ -22,6 +22,13 @@ android {
                 "proguard-rules.pro")
         }
     }
+    buildFeatures {
+        compose = true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.1.1"
+    }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -45,7 +52,7 @@ dependencies {
     debugImplementation ("androidx.compose.ui:ui-tooling:$compose_version")
 
     //Permission handling
-    implementation("com.google.accompanist:accompanist-permissions:0.22.0-rc")
+    implementation("com.google.accompanist:accompanist-permissions:0.26.0-alpha")
     // CameraX core library using the camera2 implementation
     val camerax_version = "1.2.0-alpha04"
     // The following line is optional, as the core library is included indirectly by camera-camera2

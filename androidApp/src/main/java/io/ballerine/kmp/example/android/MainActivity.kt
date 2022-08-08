@@ -12,7 +12,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import io.ballerine.kmp.android_webview.BallerineKYCFlowWebView
 import java.io.File
 import java.util.concurrent.ExecutorService
