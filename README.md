@@ -3,10 +3,22 @@
 ### Integration into Android version of KMP project
 
 1. Generate JWT token in your backend which is required to access the Ballerine KYC flow APIs. Here is the link to the documentation on how to generate token.
-2. Add `BallerineKYCFlowWebview` composable to your Activity/Fragment to initiate the web KYC verification flow process.
+2. Add jitpack dependency for Ballerine webview flow in your app-level build.gradle
 ```kt
-MainActivity.kt
-
+   implementation("com.github.gau4sar:Ballerine-android-webview:1.0.0")
+```
+   We need to add the maven dependency for jitpack in settings.gradle
+```kt
+   allprojects {
+    repositories {
+        ... 
+        maven("https://jitpack.io")
+    }
+}
+```
+3. Add `BallerineKYCFlowWebview` composable to your Activity/Fragment to initiate the web KYC verification flow process.
+   MainActivity.kt
+```kt
     BallerineKYCFlowWebView(
            outputFileDirectory = outputFileDirectory,
            cameraExecutorService = cameraExecutorService,
@@ -15,8 +27,7 @@ MainActivity.kt
                     //Do something with the verification result
     })
 ```
-3. Once the web KYC verification flow is completed, we define the callback function `onVerificationComplete` which is passed as function-parameter in `BallerineKYCFlowWebview`.
-
+4. Once the web KYC verification flow is completed, we define the callback function `onVerificationComplete` which is passed as function-parameter in `BallerineKYCFlowWebview`.
 ```kt
 BallerineKYCFlowWebView.kt
 
@@ -24,7 +35,7 @@ BallerineKYCFlowWebView.kt
         VerificationResult(isSync, status, idvResult, code)
     )    
 ```
-4. Then we receive the result of the callback function `onVerificationComplete` in your Activity/Fragment.
+5. Then we receive the result of the callback function `onVerificationComplete` in your Activity/Fragment.
 ```kt
 MainActivity.kt
 
@@ -38,7 +49,7 @@ MainActivity.kt
              "Code : ${verificationResult.code}"
     }
 ```
-5. Once you have received the `VerificationResult` we can do further checks on the different values of the `VerificationResult` like `status`|`idvResult`|`code`|`isSync`.
+6. Once you have received the `VerificationResult` we can do further checks on the different values of the `VerificationResult` like `status`|`idvResult`|`code`|`isSync`.
    (As shown above in Point 4)
 
 
