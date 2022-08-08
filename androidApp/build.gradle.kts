@@ -28,9 +28,7 @@ android {
 
 dependencies {
     implementation(project(":shared"))
-
-    // Ballerine
-    implementation("com.github.gau4sar:Ballerine-android-webview:1.0.0")
+    implementation(project(":ballerine-android-sdk"))
 
     implementation("androidx.appcompat:appcompat:1.4.2")
 
