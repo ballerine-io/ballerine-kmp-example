@@ -28,7 +28,8 @@ android {
 
 dependencies {
     implementation(project(":shared"))
-    implementation(project(":ballerine-android-sdk"))
+
+    implementation("com.github.ballerine-io:ballerine-android-sdk:1.0.4")
 
     implementation("androidx.appcompat:appcompat:1.4.2")
 

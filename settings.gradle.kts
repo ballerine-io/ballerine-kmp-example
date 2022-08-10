@@ -9,4 +9,3 @@ pluginManagement {
 rootProject.name = "BallerineKMPExample"
 include(":androidApp")
 include(":shared")
-include(":ballerine-android-sdk")
