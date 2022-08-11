@@ -1,38 +1,46 @@
-## Ballerine KMP Integration example
+## Ballerine Integration example
 
-### Integration into Android
+### Integration into Android version of KMP project
 
-1. Create a Fragment or Activity which contains the WebView, it should load `https://[YOUR-SUBDOMAIN].dev.ballerine.app` (sanbox) or `https://[YOUR-SUBDOMAIN].ballerine.app` (prod) URL.
-2. Set webViewSettings to the following WebView settings:
+1. Generate JWT token in your backend which is required to access the Ballerine KYC flow APIs. Here is the link to the documentation on how to generate token.
+2. Add gradle dependency for Ballerine webview in your app-level `build.gradle` file
 ```kt
-        webviewSettings.javaScriptEnabled = true
-        webviewSettings.domStorageEnabled = true
-        webviewSettings.allowFileAccess = true
-```
-3. Setup the WebViewClient and WebChromeClient. In WebChromeClient override the method `onShowFileChooser` the same way as it is implemented in `UserRegistrationFlowActivity`.
-4. Add `onActivityResultListener` or `registerForActivityResult` to listen to the callback from the camera application: 
-```kt
-    val resultCode = result.resultCode
-    val data = result.data
-    
-    when (resultCode) {
-        Activity.RESULT_OK -> {
-            //Image Uri will not be null for RESULT_OK
-            val uri: Uri = data?.data!!
-    
-            // Use Uri object instead of File to avoid storage permissions
-            filePathCallback!!.onReceiveValue(arrayOf(uri))
-            filePathCallback = null
-        }
-        ImagePicker.RESULT_ERROR -> {
-            Toast.makeText(this, ImagePicker.getError(data), Toast.LENGTH_SHORT).show()
-        }
-        else -> {
-            Toast.makeText(this, "Task Cancelled", Toast.LENGTH_SHORT).show()
-        }
+dependencies {
+   implementation("com.github.gau4sar:Ballerine-android-webview:1.0.0")
 }
 ```
-5. Create a method that is checking for the finished state of the registration flow and saves the received results, see `checkWebViewUrl` method for more details. 
+   We need to add the maven dependency for jitpack in settings.gradle
+```kt
+allprojects {
+   repositories {
+      ... 
+      maven("https://jitpack.io")
+   }
+}
+```
+3. Add `BallerineKYCFlowWebview` composable to your Activity/Fragment to initiate the web KYC verification flow process.
+   Then we receive the result of the callback function `onVerificationComplete` in your Activity/Fragment.
+#### MainActivity.kt
+```kt
+BallerineKYCFlowWebView(
+      outputFileDirectory = outputFileDirectory,
+      cameraExecutorService = cameraExecutorService,
+      url = "$BALLERINE_WEB_URL?/b_t=$BALLERINE_API_TOKEN",
+      onVerificationComplete = { verificationResult ->
+            
+            //Do something with the verification result        
+            
+            // Here we are just displaying the verification result as a Toast message
+            val toastMessage = "Idv result : ${verificationResult.idvResult} \n" +
+                                    "Status : ${verificationResult.status} \n" +
+                                    "Code : ${verificationResult.code}"
+
+            // Here we are just displaying the verification result as Text on the screen
+            Toast.makeText(this, toastMessage, Toast.LENGTH_LONG).show() 
+    })
+```
+4. Once you have received the `VerificationResult` we can do further checks on the different values of the `VerificationResult` like `status`|`idvResult`|`code`|`isSync`.
+   (As shown above in Point 3)
 
 
 ### Integration into iOS
@@ -43,7 +51,7 @@
 ```swift
 webView.addObserver(self, forKeyPath: "URL", options: .new, context: nil)
 ```
-4. Implement observeValue forKeyPath method to handle URL updates: 
+4. Implement observeValue forKeyPath method to handle URL updates:
 ```swift
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         guard let key = change?[NSKeyValueChangeKey.newKey], let url = (key as? NSURL)?.absoluteString else { return }

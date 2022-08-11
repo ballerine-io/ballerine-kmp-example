@@ -3,10 +3,14 @@
     package="io.ballerine.kmp.example.android">
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA"/>
+
     <application
-        android:allowBackup="false"
+        android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -16,9 +20,5 @@
             </intent-filter>
         </activity>
 
-        <activity
-          android:name=".BallerineKYCFlow"
-          android:exported="false">
-        </activity>
     </application>
 </manifest> 

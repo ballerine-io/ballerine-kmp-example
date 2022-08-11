@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Ballerine KMP</string>
+    <string name="start_the_flow">Start The Flow</string>
+    <string name="display_verification_result">No verification result available</string>
+</resources>
