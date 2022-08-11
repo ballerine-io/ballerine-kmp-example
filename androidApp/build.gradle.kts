@@ -31,8 +31,10 @@ dependencies {
     implementation("com.github.ballerine-io:ballerine-android-sdk:1.0.4")
 
     implementation("androidx.appcompat:appcompat:1.5.0")
+    implementation("com.google.android.material:material:1.6.1")
+    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
 
-    val compose_version = "1.1.1"
+    val compose_version = "1.2.1"
 
     implementation ("androidx.core:core-ktx:1.8.0")
     implementation ("androidx.activity:activity-compose:1.5.1")
