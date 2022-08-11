@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="take_picture">Take picture</string>
-    <string name="allow_camera_access">Allow camera access to continue</string>
-    <string name="camera_permission_mandatory">Camera access permission is mandatory</string>
-</resources>
