@@ -38,7 +38,8 @@ BallerineKYCFlowWebView(
 
             // Here we are just displaying the verification result as Text on the screen
             Toast.makeText(this, toastMessage, Toast.LENGTH_LONG).show() 
-    })
+    }
+)
 ```
 4. Once you have received the `VerificationResult` we can do further checks on the different values of the `VerificationResult` like `status`|`idvResult`|`code`|`isSync`.
    (As shown above in Point 3)
