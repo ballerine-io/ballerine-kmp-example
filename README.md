@@ -45,6 +45,9 @@ BallerineKYCFlowWebView(
    (As shown above in Point 3)
 
 
+
+
+
 ### Integration into iOS
 
 1. Add the NSCameraUsageDescription key into Info.plist file. It's needed in order to use the camera.
