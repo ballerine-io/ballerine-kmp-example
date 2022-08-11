@@ -3,10 +3,12 @@
 ### Integration into Android version of KMP project
 
 1. Generate JWT token in your backend which is required to access the Ballerine KYC flow APIs. Here is the link to the documentation on how to generate token.
+
+
 2. Add gradle dependency for Ballerine webview in your app-level `build.gradle` file
 ```kt
 dependencies {
-   implementation("com.github.gau4sar:Ballerine-android-webview:1.0.0")
+   implementation 'com.github.ballerine-io:ballerine-android-sdk:1.0.4'
 }
 ```
    We need to add the maven dependency for jitpack in settings.gradle
@@ -19,8 +21,7 @@ allprojects {
 }
 ```
 3. Add `BallerineKYCFlowWebview` composable to your Activity/Fragment to initiate the web KYC verification flow process.
-   Then we receive the result of the callback function `onVerificationComplete` in your Activity/Fragment.
-#### MainActivity.kt
+   Then we receive the result of the callback function `onVerificationComplete` in your Compose Activity/Fragment.
 ```kt
 BallerineKYCFlowWebView(
       outputFileDirectory = outputFileDirectory,
@@ -37,10 +38,14 @@ BallerineKYCFlowWebView(
 
             // Here we are just displaying the verification result as Text on the screen
             Toast.makeText(this, toastMessage, Toast.LENGTH_LONG).show() 
-    })
+    }
+)
 ```
 4. Once you have received the `VerificationResult` we can do further checks on the different values of the `VerificationResult` like `status`|`idvResult`|`code`|`isSync`.
    (As shown above in Point 3)
+
+
+
 
 
 ### Integration into iOS
