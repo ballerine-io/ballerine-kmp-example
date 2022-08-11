@@ -22,7 +22,6 @@ allprojects {
 ```
 3. Add `BallerineKYCFlowWebview` composable to your Activity/Fragment to initiate the web KYC verification flow process.
    Then we receive the result of the callback function `onVerificationComplete` in your Compose Activity/Fragment.
-#### MainActivity.kt
 ```kt
 BallerineKYCFlowWebView(
       outputFileDirectory = outputFileDirectory,
