@@ -25,7 +25,7 @@ class MainActivityXML : AppCompatActivity() {
             BallerineKYCFlowWebView(
                 outputFileDirectory = outputFileDirectory,
                 cameraExecutorService = cameraExecutorService,
-                url = "${MainActivity.BALLERINE_WEB_URL}?b_t=${MainActivity.BALLERINE_API_TOKEN}",
+                url = "${MainActivity.BALLERINE_BASE_URL}?b_t=${MainActivity.BALLERINE_API_TOKEN}",
                 onVerificationComplete = { verificationResult ->
 
                     //TODO :: Use the verification result returned

@@ -21,14 +21,16 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
 
-        const val BALLERINE_WEB_URL = "https://moneco.dev.ballerine.app"
+        const val BALLERINE_BASE_URL = "https://moneco.dev.ballerine.app"
 
         /**
          * BALLERINE_API_TOKEN needs to be generated from the backend. Please follow the below link for more information on how to generate the tole
          * https://www.notion.so/ballerine/Ballerine-s-Developers-Documentation-c9b93462384446ef98ffb69d16865981#228240bfef6f48f3971db07ef03368c3
          */
         const val BALLERINE_API_TOKEN =
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbmRVc2VySWQiOiJhMzEyYzk1ZC03ODE4LTQyNDAtOTQ5YS1mMDRmNDEwMzRlYzEiLCJjbGllbnRJZCI6IjI2YTRmOTFiLWFhM2UtNGNlNS1hZDE1LWYzNTRiOTI1NmJmMCIsImlhdCI6MTY1OTYxNzM1NCwiZXhwIjoxNjkwMzc1NzU0LCJpc3MiOiIyNmE0ZjkxYi1hYTNlLTRjZTUtYWQxNS1mMzU0YjkyNTZiZjAifQ.Nm-j9jVh7ByHoo0WkqnIQeVR0mNWcV3TZUNknSLRtbc"
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbmRVc2VySWQiOiJhMzE0ZDk1ZC05ODE4LTQyMjAtOTQ5YS1mMDRmNDEwMzRlYzEiLCJjbGllbnRJZCI6IjI2YTRmOTFiLWFhM2UtNGNlNS1hZDE1LWYzNTRiOTI1NmJmMCIsImlhdCI6MTY2MDQyOTg2NiwiZXhwIjoxOTY4MDEzODY2LCJpc3MiOiIyNmE0ZjkxYi1hYTNlLTRjZTUtYWQxNS1mMzU0YjkyNTZiZjAifQ.mDjow1TIbD_Uz0m2tKvx62KI7JYu67Qzm88aJbjSFkc"
+
+        const val BALLERINE_WEB_URL = "$BALLERINE_BASE_URL/?b_t=$BALLERINE_API_TOKEN&b_eut=individual&b_fn=John&b_ln=Doe&b_em=test@moneco.com&b_ph=+15014384992"
 
         const val MAIN_SCREEN = 0
         const val WEB_VIEW_SCREEN = 1
@@ -100,7 +102,7 @@ class MainActivity : AppCompatActivity() {
                     BallerineKYCFlowWebView(
                         outputFileDirectory = outputFileDirectory,
                         cameraExecutorService = cameraExecutorService,
-                        url = "$BALLERINE_WEB_URL?b_t=$BALLERINE_API_TOKEN",
+                        url = BALLERINE_WEB_URL,
                         onVerificationComplete = { verificationResult ->
 
                             //TODO :: Use the verification result returned
