@@ -14,8 +14,6 @@ class StartViewController: UIViewController {
     private let button = UIButton()
     private let label = UILabel()
     
-    private let storage = BallerineStorage.shared
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -57,7 +55,7 @@ class StartViewController: UIViewController {
     // MARK: - Private helpers
     
     private func setText() {
-        label.text = storage.previouslyStoredKey()
+        // TODO :: Update text
     }
 
     private func onUserRegisterError(_ error: Error) {

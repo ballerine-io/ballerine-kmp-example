@@ -13,7 +13,6 @@ import shared
 class BallerineKYCFlow: UIViewController {
     
     private let webView = WKWebView()
-    private let storage = BallerineStorage.shared
     
     private let completion: (Error?) -> Void
     
@@ -57,7 +56,6 @@ class BallerineKYCFlow: UIViewController {
     }
     
     private func finishWithSecret(_ secret: String) {
-        storage.saveSecret(secret: secret)
         completion(nil)
         dismiss(animated: true)
     }
