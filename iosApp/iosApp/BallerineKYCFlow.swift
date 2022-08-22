@@ -12,6 +12,8 @@ import shared
 
 class BallerineKYCFlow: UIViewController {
     
+    private let ballerineUrl = "https://moneco.dev.ballerine.app/?b_t=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbmRVc2VySWQiOiJhMzEyYzk1ZC03ODE4LTQyNDAtOTQ5YS1mMDRmNDEwMzRlYzEiLCJjbGllbnRJZCI6IjI2YTRmOTFiLWFhM2UtNGNlNS1hZDE1LWYzNTRiOTI1NmJmMCIsImlhdCI6MTY1OTYxNzM1NCwiZXhwIjoxNjkwMzc1NzU0LCJpc3MiOiIyNmE0ZjkxYi1hYTNlLTRjZTUtYWQxNS1mMzU0YjkyNTZiZjAifQ.Nm-j9jVh7ByHoo0WkqnIQeVR0mNWcV3TZUNknSLRtbc&b_eut=individual&b_fn=John&b_ln=Doe&b_em=test@vendy.com&b_ph=+15014384992";
+    
     private let webView = WKWebView()
     
     private let completion: (Error?) -> Void
@@ -30,6 +32,7 @@ class BallerineKYCFlow: UIViewController {
         
         view.backgroundColor = .white
         view.addSubview(webView)
+        
         webView.translatesAutoresizingMaskIntoConstraints = false
         webView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         webView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
@@ -51,7 +54,7 @@ class BallerineKYCFlow: UIViewController {
     }
     
     private func loadUrl() {
-        let request = URLRequest(url: URL(string: "https://2.dev.ballerine.app")!)
+        let request = URLRequest(url: URL(string: ballerineUrl)!)
         webView.load(request)
     }
     
