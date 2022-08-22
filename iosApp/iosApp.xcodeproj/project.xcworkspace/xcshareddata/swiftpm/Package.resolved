@@ -1,0 +1,14 @@
+{
+  "pins" : [
+    {
+      "identity" : "camera-swiftui",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/rorodriguez116/Camera-SwiftUI.git",
+      "state" : {
+        "revision" : "bec647c47f45cdfd588dd50e07571fb2642f4575",
+        "version" : "0.0.5"
+      }
+    }
+  ],
+  "version" : 2
+}
