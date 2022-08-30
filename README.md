@@ -45,26 +45,45 @@ BallerineKYCFlowWebView(
    (As shown above in Point 3)
 
 
+### Webflow Integration for iOS 
 
-
-
-### Integration into iOS
-
-1. Add the NSCameraUsageDescription key into Info.plist file. It's needed in order to use the camera.
-2. Create UIViewController which contains WKWebView, it should load `https://[YOUR-SUBDOMAIN].dev.ballerine.app` (sanbox) or `https://[YOUR-SUBDOMAIN].ballerine.app` (prod) URL.
-3. Add web view key-value observer to detect URL updates:
-```swift
-webView.addObserver(self, forKeyPath: "URL", options: .new, context: nil)
+Step 1. Add the NSCameraUsageDescription key into Info.plist file. It's needed in order to use the camera.
+```xml
+<key>NSCameraUsageDescription</key>
+<string>Ballerine would like to access your camera in order to verify your identity.</string>
+<key>NSPhotoLibraryAddUsageDescription</key>
 ```
-4. Implement observeValue forKeyPath method to handle URL updates:
+Step 2: Add the `BallerineKYCViewController` and `VerficationResult` class inside the iosApp package.
+
+Step 3: Update the Ballerine service URL inside BallerineKYCViewController which is used to load the webview
 ```swift
-    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        guard let key = change?[NSKeyValueChangeKey.newKey], let url = (key as? NSURL)?.absoluteString else { return }
-        if url.absoluteString.contains("final") {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak self] in
-                self?.finishWithSecret(url.query ?? "")
-            }
+private let BALLERINE_URL = "https://example.ballerine.app/?b_t=<API_TOKEN>&b_eut=individual&b_fn=John&b_ln=Doe&b_em=test@ballerine.io&b_ph=+1100212012";
+```
+Step 4: Inside the ViewController we implement the following function which we can call to start our verification flow
+```swift
+@objc private func startVerificationFlow() {
+    // Here we initialize the BallerineKYCFlow viewcontroller 
+    let ballerineKycVC = BallerineKYCFlow()
+        
+	// Here we implement the callback function where we 
+	// receive the verification result as VerificationResult object
+    ballerineKycVC.onVerificaitionComplete = { [weak self] verificationResult in
+        let result: [String: String] = [
+            "sync" : verificationResult?.isSync ?? "",
+            "status" : verificationResult?.status ?? "",
+            "code": verificationResult?.code ?? "",
+            "idvResult" : verificationResult?.status ?? ""
+        ]
+   
+        DispatchQueue.main.async {
+            // Here we use the verification result to display it in the view
+			// Example- here we set result to a textView 
+			textView.text = result.description
         }
     }
+    
+    ballerineKycVC.modalPresentationStyle = .fullScreen
+    // Open Ballerine webview view-controller 
+    present(ballerineKycVC, animated: true)
+}
 ```
-5. Create a method that is checking for the finished state of the registration flow and saves the received results, see `finishWithSecret` method for more details.
