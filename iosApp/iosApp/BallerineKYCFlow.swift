@@ -16,16 +16,7 @@ class BallerineKYCFlow: UIViewController {
     
     private let webView = WKWebView()
     
-    private let completion: (Error?) -> Void
-    
-    init(completion: @escaping (Error?) -> Void) {
-        self.completion = completion
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    public var onVerificaitionComplete: ((VerificationResult?) -> ())?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,28 +30,42 @@ class BallerineKYCFlow: UIViewController {
         webView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         webView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         
+        // Add observer to listen for URL path changes
         webView.addObserver(self, forKeyPath: "URL", options: .new, context: nil)
-        loadUrl()
+        
+        // Load ballerine webview url
+        let request = URLRequest(url: URL(string: ballerineUrl)!)
+        webView.load(request)
     }
     
     // Observe value
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         guard let key = change?[NSKeyValueChangeKey.newKey], let url = key as? URL else { return }
+        
         if url.absoluteString.contains("final") {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak self] in
-                self?.finishWithSecret(url.query ?? "")
-            }
+            self.onVerificationCompleted(url: url)
+        }
+        
+        if url.absoluteString.contains("close") {
+            self.dismiss(animated: true)
         }
     }
     
-    private func loadUrl() {
-        let request = URLRequest(url: URL(string: ballerineUrl)!)
-        webView.load(request)
+    @objc private func onVerificationCompleted(url : URL) {
+        
+        var verificationResult = VerificationResult()
+        
+        verificationResult.isSync = getQueryStringParameter(url: url.absoluteString, param: "sync") ?? ""
+        verificationResult.status = getQueryStringParameter(url: url.absoluteString, param: "status") ?? ""
+        verificationResult.code = getQueryStringParameter(url: url.absoluteString, param: "code") ?? ""
+        verificationResult.idvResult = getQueryStringParameter(url: url.absoluteString, param: "idvResult") ?? ""
+        
+        self.onVerificaitionComplete?(verificationResult)
     }
     
-    private func finishWithSecret(_ secret: String) {
-        completion(nil)
-        dismiss(animated: true)
+    private func getQueryStringParameter(url: String, param: String) -> String? {
+      guard let url = URLComponents(string: url) else { return nil }
+      return url.queryItems?.first(where: { $0.name == param })?.value
     }
     
 }

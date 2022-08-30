@@ -12,56 +12,60 @@ import shared
 class StartViewController: UIViewController {
     
     private let button = UIButton()
-    private let label = UILabel()
+    private let textView = UITextView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.backgroundColor = .white
         
-        [label, button].forEach {
+        [textView, button].forEach {
             view.addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
         button.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         button.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-    
-        button.backgroundColor = .lightGray
-        button.setTitle("Start the flow", for: .normal)
+
+        
+        button.backgroundColor = .systemBlue
+        button.setTitle("Start Verification flow", for: .normal)
         button.addTarget(self, action: #selector(startRegistrationFlow), for: .touchUpInside)
         
-        label.topAnchor.constraint(equalTo: button.bottomAnchor, constant: 20).isActive = true
-        label.centerXAnchor.constraint(equalTo: button.centerXAnchor).isActive = true
-        
-        label.font = .systemFont(ofSize: 10)
-        label.textColor = .black
-        setText()
+        textView.topAnchor.constraint(equalTo: button.bottomAnchor, constant: 20).isActive = true
+        textView.centerXAnchor.constraint(equalTo: button.centerXAnchor).isActive = true
+        textView.textColor = .black
     }
     
     // MARK: - Handlers
     
     @objc private func startRegistrationFlow() {
-        let vc = BallerineKYCFlow { [weak self] error in
-            if let err = error {
-                self?.onUserRegisterError(err)
-            } else {
-                self?.setText()
+        
+        let ballerineKycVC = BallerineKYCFlow()
+        
+        ballerineKycVC.onVerificaitionComplete = { [weak self] verificationResult in
+            let data: [String: String] = [
+                "sync" : verificationResult?.isSync ?? "",
+                "status" : verificationResult?.status ?? "",
+                "code": verificationResult?.code ?? "",
+                "idvResult" : verificationResult?.status ?? ""
+            ]
+            
+            print("Verification result : \(data)")
+            
+            DispatchQueue.main.async {
+                self?.setResult(result: data)
             }
         }
-        vc.modalPresentationStyle = .fullScreen
-        present(vc, animated: true)
+    
+        ballerineKycVC.modalPresentationStyle = .fullScreen
+        
+        present(ballerineKycVC, animated: true)
     }
     
     // MARK: - Private helpers
     
-    private func setText() {
-        // TODO :: Update text
+    // Here we display the verification result in our view
+    private func setResult(result: [String:String]) {
+        textView.text = result.description
     }
-
-    private func onUserRegisterError(_ error: Error) {
-        let alert = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .cancel))
-        present(alert, animated: true)
-    }
-    
 }
