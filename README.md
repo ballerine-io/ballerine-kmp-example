@@ -1,11 +1,13 @@
 ## Ballerine Integration example
 
+Requirements 
+
+- Generate JWT token in your backend which is required to access the Ballerine KYC flow APIs. Here is the link to the documentation on how to generate token.
+- Get the Ballerine webview flow service url 
+
 ### Integration into Android version of KMP project
 
-1. Generate JWT token in your backend which is required to access the Ballerine KYC flow APIs. Here is the link to the documentation on how to generate token.
-
-
-2. Add gradle dependency for Ballerine webview in your app-level `build.gradle` file
+Step 1. Add gradle dependency for Ballerine webview in your app-level `build.gradle` file
 ```kt
 dependencies {
    implementation 'com.github.ballerine-io:ballerine-android-sdk:1.0.5'
@@ -20,13 +22,25 @@ allprojects {
    }
 }
 ```
-3. Add `BallerineKYCFlowWebview` composable to your Activity/Fragment to initiate the web KYC verification flow process.
+
+Step 2: Declare the below required permission in your `AndroidManifest.xml` file
+```xml
+<uses-permission android:name="android.permission.INTERNET" />
+<uses-permission android:name="android.permission.CAMERA" />
+```
+
+Step 3: Update the Ballerine service URL which is required as a parameter for `BallerineKYCFlowWebview` 
+```kotlin
+const val BALLERINE_WEB_URL = "$BALLERINE_BASE_URL/?b_t=$BALLERINE_API_TOKEN&b_eut=individual&b_fn=John&b_ln=Doe&b_em=test@moneco.com&b_ph=+15014384992"
+```
+
+Step 4: Add `BallerineKYCFlowWebview` composable to your Activity/Fragment to initiate the web KYC verification flow process.
    Then we receive the result of the callback function `onVerificationComplete` in your Compose Activity/Fragment.
-```kt
+```kotlin
 BallerineKYCFlowWebView(
       outputFileDirectory = outputFileDirectory,
       cameraExecutorService = cameraExecutorService,
-      url = "$BALLERINE_WEB_URL?/b_t=$BALLERINE_API_TOKEN",
+      url = $BALLERINE_WEB_URL,
       onVerificationComplete = { verificationResult ->
             
             //Do something with the verification result        
@@ -41,13 +55,13 @@ BallerineKYCFlowWebView(
     }
 )
 ```
-4. Once you have received the `VerificationResult` we can do further checks on the different values of the `VerificationResult` like `status`|`idvResult`|`code`|`isSync`.
+Step 5: Once the verification is complete, we receive the `verificationResult` which is a `VerificationResult` object containing detailed verification information.
    (As shown above in Point 3)
 
 
 ### Webflow Integration for iOS 
 
-Step 1. Add the NSCameraUsageDescription key into Info.plist file. It's needed in order to use the camera.
+Step 1: Add the NSCameraUsageDescription key into Info.plist file. It's needed in order to use the camera.
 ```xml
 <key>NSCameraUsageDescription</key>
 <string>Ballerine would like to access your camera in order to verify your identity.</string>
