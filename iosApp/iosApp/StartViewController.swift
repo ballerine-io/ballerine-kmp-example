@@ -39,7 +39,7 @@ class StartViewController: UIViewController {
     
     @objc private func startVerificationFlow() {
         
-        let ballerineKycVC = BallerineKYCViewController()
+        let ballerineKycVC = BallerineKYCFlow()
         
         ballerineKycVC.onVerificaitionComplete = { [weak self] verificationResult in
             let data: [String: String] = [
