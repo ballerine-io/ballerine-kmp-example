@@ -12,7 +12,7 @@ import shared
 class StartViewController: UIViewController {
     
     private let button = UIButton()
-    private let textView = UITextView()
+    private let textView = UILabel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,11 +25,10 @@ class StartViewController: UIViewController {
         }
         button.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         button.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-
         
         button.backgroundColor = .systemBlue
         button.setTitle("Start Verification flow", for: .normal)
-        button.addTarget(self, action: #selector(startRegistrationFlow), for: .touchUpInside)
+        button.addTarget(self, action: #selector(startVerificationFlow), for: .touchUpInside)
         
         textView.topAnchor.constraint(equalTo: button.bottomAnchor, constant: 20).isActive = true
         textView.centerXAnchor.constraint(equalTo: button.centerXAnchor).isActive = true
@@ -38,9 +37,9 @@ class StartViewController: UIViewController {
     
     // MARK: - Handlers
     
-    @objc private func startRegistrationFlow() {
+    @objc private func startVerificationFlow() {
         
-        let ballerineKycVC = BallerineKYCFlow()
+        let ballerineKycVC = BallerineKYCViewController()
         
         ballerineKycVC.onVerificaitionComplete = { [weak self] verificationResult in
             let data: [String: String] = [

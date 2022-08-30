@@ -8,8 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		058557BB273AAA24004C7B11 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 058557BA273AAA24004C7B11 /* Assets.xcassets */; };
+		8097B00A28BE0286002AED51 /* VerificationResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8097B00928BE0286002AED51 /* VerificationResult.swift */; };
 		9D67F781E9454D612914BA1C /* Pods_iosApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 462A710F052E15A3EA161F6B /* Pods_iosApp.framework */; };
-		D78ED85A2887E86900D325BA /* BallerineKYCFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = D78ED8572887E86900D325BA /* BallerineKYCFlow.swift */; };
+		D78ED85A2887E86900D325BA /* BallerineKYCViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D78ED8572887E86900D325BA /* BallerineKYCViewController.swift */; };
 		D78ED85B2887E86900D325BA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D78ED8582887E86900D325BA /* AppDelegate.swift */; };
 		D78ED85C2887E86900D325BA /* StartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D78ED8592887E86900D325BA /* StartViewController.swift */; };
 /* End PBXBuildFile section */
@@ -20,8 +21,9 @@
 		462A710F052E15A3EA161F6B /* Pods_iosApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iosApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7555FF7B242A565900829871 /* iosApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iosApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7555FF8C242A565B00829871 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8097B00928BE0286002AED51 /* VerificationResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationResult.swift; sourceTree = "<group>"; };
 		A7889BE5A8A88FE52B730587 /* Pods-iosApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iosApp.debug.xcconfig"; path = "Target Support Files/Pods-iosApp/Pods-iosApp.debug.xcconfig"; sourceTree = "<group>"; };
-		D78ED8572887E86900D325BA /* BallerineKYCFlow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BallerineKYCFlow.swift; sourceTree = "<group>"; };
+		D78ED8572887E86900D325BA /* BallerineKYCViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BallerineKYCViewController.swift; sourceTree = "<group>"; };
 		D78ED8582887E86900D325BA /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D78ED8592887E86900D325BA /* StartViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -62,7 +64,8 @@
 				D78ED8562887E80D00D325BA /* Resources */,
 				D78ED8582887E86900D325BA /* AppDelegate.swift */,
 				D78ED8592887E86900D325BA /* StartViewController.swift */,
-				D78ED8572887E86900D325BA /* BallerineKYCFlow.swift */,
+				D78ED8572887E86900D325BA /* BallerineKYCViewController.swift */,
+				8097B00928BE0286002AED51 /* VerificationResult.swift */,
 			);
 			path = iosApp;
 			sourceTree = "<group>";
@@ -190,7 +193,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				D78ED85B2887E86900D325BA /* AppDelegate.swift in Sources */,
-				D78ED85A2887E86900D325BA /* BallerineKYCFlow.swift in Sources */,
+				8097B00A28BE0286002AED51 /* VerificationResult.swift in Sources */,
+				D78ED85A2887E86900D325BA /* BallerineKYCViewController.swift in Sources */,
 				D78ED85C2887E86900D325BA /* StartViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
