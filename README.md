@@ -5,7 +5,7 @@ Requirements
 - Generate JWT token in your backend which is required to access the Ballerine KYC flow APIs. Here is the link to the documentation on how to generate token.
 - Get the Ballerine webview flow service url 
 
-### Integration into Android version of KMP project
+### Webflow Integration steps for Android version of KMP project
 
 Step 1. Add gradle dependency for Ballerine webview in your app-level `build.gradle` file
 ```kt
@@ -59,7 +59,7 @@ Step 5: Once the verification is complete, we receive the `verificationResult` w
    (As shown above in Point 3)
 
 
-### Webflow Integration for iOS 
+### Webflow Integration steps for iOS version of KMP project
 
 Step 1: Add the NSCameraUsageDescription key into Info.plist file. It's needed in order to use the camera.
 ```xml
